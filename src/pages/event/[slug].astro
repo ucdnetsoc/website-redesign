@@ -1,0 +1,59 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import fetchApi from "../../lib/strapi";
+import type Event from "../../interfaces/event";
+import EventCarousel from "../../components/EventCarousel.astro";
+
+export async function getStaticPaths() {
+  const events = await fetchApi<Event[]>({
+    endpoint: "events?populate=*",
+    wrappedByKey: "data",
+  });
+
+  return events.map((event) => ({
+    params: { slug: event.attributes.slug },
+    props: event,
+  }));
+}
+
+type Props = Event;
+
+const event = Astro.props.attributes;
+
+const allEvents = await fetchApi<Event[]>({
+  endpoint: "events?populate=*",
+  wrappedByKey: "data",
+});
+---
+
+<Layout title={event.name}>
+  <section
+    class="mx-4 mb-16 mt-4 flex max-w-screen-lg flex-col gap-4 p-4 sm:flex-row sm:bg-black sm:text-white lg:mx-auto"
+  >
+    <img
+      src={`${import.meta.env.STRAPI_URL}${event.thumbnail.data.attributes.url}`}
+      alt="Infographic social media post advertising the event."
+      class="mx-auto shrink sm:max-w-xs md:max-w-sm"
+    />
+    <div>
+      <h1 class="mb-4 text-4xl font-bold">{event.name}</h1>
+      <p class="text-sm font-semibold text-gray-400">
+        Time:
+        <time datetime={event.date}
+          >{new Date(event.date).toLocaleString()}</time
+        >
+      </p>
+      <p class="mb-4 text-sm font-semibold text-gray-400">
+        Location: {event.location}
+      </p>
+      <p>{event.description}</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-screen-xl">
+    <h2 class="mb-4 text-center font-display text-3xl font-bold">
+      More Events
+    </h2>
+    <EventCarousel events={allEvents} />
+  </section>
+</Layout>

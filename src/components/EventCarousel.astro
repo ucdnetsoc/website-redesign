@@ -1,0 +1,14 @@
+---
+import type Event from "../interfaces/event";
+import EventCard from "./EventCard.astro";
+
+interface Props {
+  events: Event[];
+}
+
+const { events } = Astro.props;
+---
+
+<div class="flex flex-row gap-16 overflow-x-scroll px-8 py-4">
+  {events.map((event) => <EventCard event={event} />)}
+</div>

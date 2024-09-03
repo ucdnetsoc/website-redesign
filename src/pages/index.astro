@@ -1,25 +1,32 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EventCarousel from "../components/EventCarousel.astro";
+import ArticleList from "../components/ArticleList.astro";
 
 import fetchApi from "../lib/strapi";
 import type Event from "../interfaces/event.ts";
+import type Article from "../interfaces/article";
 
 const events = await fetchApi<Event[]>({
   endpoint: "events?populate=*",
   wrappedByKey: "data",
 });
+
+const articles = await fetchApi<Article[]>({
+  endpoint: "articles?sort=publishedAt:desc&pagination[limit]=8",
+  wrappedByKey: "data",
+});
 ---
 
 <Layout title="UCD NetSoc">
-  <section id="hero" class="mb-8 p-8">
-    <div class="flex max-w-xs flex-col items-start gap-8 text-white">
-      <p class="font-display text-4xl leading-tight sm:text-5xl lg:text-7xl">
+  <section id="hero" class="p-8">
+    <div class="flex flex-col items-start gap-8 text-white sm:max-w-xs">
+      <h1 class="text-left font-display text-5xl leading-tight lg:text-7xl">
         The<br />
         Inter<span class="text-green-500">net</span><br />
         <span class="text-green-500">Soc</span>iety<br />
         @UCD
-      </p>
+      </h1>
       <p>
         In 1995, we set out to connect the UCD student populace to the Internet.
         Today, we still have the same goal: to ensure that everyone on campus
@@ -28,11 +35,19 @@ const events = await fetchApi<Event[]>({
     </div>
   </section>
 
-  <section>
-    <p class="text-center font-display text-3xl text-black">Events</p>
-
+  <section class="p-8">
+    <h2 class="mb-8 text-center font-display text-3xl">Events</h2>
     <EventCarousel events={events} />
   </section>
+
+  <section class="bg-black p-8">
+    <h2 class="mb-8 text-center font-display text-3xl text-white">Blog</h2>
+    <ArticleList articles={articles} />
+  </section>
+
+  <!-- <section class="p-8"> -->
+  <!--   <h2 class="mb-8 text-center font-display text-3xl">Services</h2> -->
+  <!-- </section> -->
 </Layout>
 
 <style>

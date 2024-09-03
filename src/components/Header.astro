@@ -2,12 +2,10 @@
 interface Props {
   backgroundColor: string;
 }
-
-const { backgroundColor } = Astro.props;
 ---
 
 <header
-  class="sticky top-0 flex h-16 items-center justify-between px-4 text-white md:px-8"
+  class="sticky top-0 flex h-16 shrink-0 items-center justify-between bg-black px-4 text-white md:px-8"
 >
   <a href="/">
     <svg
@@ -40,9 +38,7 @@ const { backgroundColor } = Astro.props;
     </svg>
   </a>
 
-  <div
-    class="flex items-center justify-center gap-2 text-sm md:gap-4 md:text-base"
-  >
+  <div class="flex items-center justify-center gap-4 text-sm md:text-base">
     <a class="font-bold hover:text-green-500" href="/blog">Blog</a>
     <a class="font-bold hover:text-green-500" href="/committee">Committee</a>
     <span>|</span>
@@ -108,9 +104,3 @@ const { backgroundColor } = Astro.props;
     </a>
   </div>
 </header>
-
-<style define:vars={{ backgroundColor }}>
-  header {
-    background: var(--backgroundColor);
-  }
-</style>

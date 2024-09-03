@@ -1,0 +1,33 @@
+---
+import type Article from "../interfaces/article";
+
+interface Props {
+  article: Article;
+}
+
+const article = Astro.props.article.attributes;
+
+const tagList = article.tags && article.tags.split(",");
+---
+
+<div class="rounded-sm p-4 text-white hover:bg-gray-900">
+  <time class="text-xs font-bold text-slate-500" datetime={article.publishedAt}
+    >{new Date(article.publishedAt).toLocaleDateString()}</time
+  >
+  <p class="my-1 text-lg font-bold leading-tight">
+    <a href={`/blog/${article.slug}`} class="hover:text-green-500"
+      >{article.title}</a
+    >
+  </p>
+  <p class="mb-4">By <span class="italic">{article.author}</span></p>
+  <p class="mb-4">{article.description}</p>
+  {
+    tagList && (
+      <div class="flex gap-2 text-sm font-bold text-slate-500">
+        {tagList.map((tag) => (
+          <span>#{tag.toLowerCase()}</span>
+        ))}
+      </div>
+    )
+  }
+</div>

@@ -1,0 +1,36 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import fetchApi from "../../lib/strapi";
+import Article from "../../interfaces/article";
+
+const articles = await fetchApi<Article[]>({
+  endpoint: "articles",
+  wrappedByKey: "data",
+});
+---
+
+<Layout title="NetSoc Blog">
+  <h1 class="mb-8 mt-4 text-center text-4xl font-bold">Blog Posts</h1>
+
+  <div class="mx-auto flex max-w-screen-md flex-col gap-4">
+    {
+      articles.map((article) => (
+        <div class="p-4">
+          <time
+            class="text-xs font-bold text-gray-500"
+            datetime={article.attributes.publishedAt}
+          >
+            {new Date(article.attributes.publishedAt).toLocaleDateString()}
+          </time>
+          <h2 class="text-2xl font-bold">
+            <a href={article.attributes.slug}>{article.attributes.title}</a>
+          </h2>
+          <p class="mb-4">
+            By <span class="italic">{article.attributes.author}</span>
+          </p>
+          <p>{article.attributes.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</Layout>

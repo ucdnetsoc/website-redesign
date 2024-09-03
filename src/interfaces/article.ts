@@ -5,7 +5,10 @@ export default interface Article {
     canonicalUrl?: string;
     content: string;
     createdAt: string;
+    description: string;
     publishedAt: string;
+    slug: string;
+    tags: string;
     title: string;
     updatedAt: string;
   };

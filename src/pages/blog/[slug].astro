@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import fetchApi from "../../lib/strapi";
-import Article from "../../interfaces/article";
+import type Article from "../../interfaces/article";
 import { marked } from "marked";
 
 export async function getStaticPaths() {

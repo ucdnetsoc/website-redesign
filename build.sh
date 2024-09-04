@@ -1,5 +1,9 @@
 #! /usr/bin/bash
 
+cd /tmp
+git clone https://github.com/ucdnetsoc/website-redesign
+cd website-redesign
+mkdir dist
 docker build -t homebuild -f Dockerfile .
-docker run -v "/tmp/homepage:/app/dist" -d homebuild
-mv /tmp/homepage /opt/static/netsoc.com
+docker run --rm -v "/tmp/website-redesign/dist:/site/dist" homebuild
+mv /tmp/homepage /opt/static/next.netsoc.com

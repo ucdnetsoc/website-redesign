@@ -23,7 +23,9 @@ const articles = await fetchApi<Article[]>({
             {new Date(article.attributes.publishedAt).toLocaleDateString()}
           </time>
           <h2 class="text-2xl font-bold">
-            <a href={article.attributes.slug}>{article.attributes.title}</a>
+            <a href={`/blog/${article.attributes.slug}`}>
+              {article.attributes.title}
+            </a>
           </h2>
           <p class="mb-4">
             By <span class="italic">{article.attributes.author}</span>

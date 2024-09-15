@@ -1,21 +1,21 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EventCarousel from "../components/EventCarousel.astro";
-import ArticleList from "../components/ArticleList.astro";
+// import ArticleList from "../components/ArticleList.astro";
 
 import fetchApi from "../lib/strapi";
 import type Event from "../interfaces/event.ts";
-import type Article from "../interfaces/article";
+// import type Article from "../interfaces/article";
 
 const events = await fetchApi<Event[]>({
-  endpoint: "events?populate=*",
+  endpoint: "events?populate=*&sort=date",
   wrappedByKey: "data",
 });
 
-const articles = await fetchApi<Article[]>({
-  endpoint: "articles?sort=publishedAt:desc&pagination[limit]=8",
-  wrappedByKey: "data",
-});
+// const articles = await fetchApi<Article[]>({
+//   endpoint: "articles?sort=publishedAt:desc&pagination[limit]=8",
+//   wrappedByKey: "data",
+// });
 ---
 
 <Layout title="UCD NetSoc">
@@ -41,9 +41,66 @@ const articles = await fetchApi<Article[]>({
   </section>
 
   <section class="bg-black p-8">
-    <h2 class="mb-8 text-center font-display text-3xl text-white">Blog</h2>
-    <ArticleList articles={articles} />
+    <h2
+      class="mb-4 text-center font-display text-base text-white sm:mb-8 sm:text-xl"
+    >
+      Proudly sponsored by:
+    </h2>
+    <div
+      class="mb-4 grid grid-cols-1 items-center justify-items-center gap-4 sm:mb-12 sm:grid-cols-3"
+    >
+      <a
+        href="https://kpmg.com/ie/en/home/careers.html"
+        rel="noreferrer noopener"
+        target="_blank"
+        ><img
+          src="/sponsor-logos/KPMG.svg"
+          alt="KPMG Logo"
+          class="h-6 sm:h-12"
+        /></a
+      >
+      <a
+        href="https://careers.sig.com/global-campus/"
+        rel="noopener noreferrer"
+        target="_blank"
+        ><img
+          src="/sponsor-logos/SIG.svg"
+          alt="SIG Logo"
+          class="h-6 sm:h-12"
+        /></a
+      >
+      <a
+        href="https://stripe.com/ie/jobs/university"
+        rel="noreferrer noopener"
+        target="_blank"
+        ><img
+          src="/sponsor-logos/Stripe.svg"
+          alt="Stripe Logo"
+          class="h-6 sm:h-12"
+        /></a
+      >
+    </div>
+    <div
+      class="grid grid-cols-1 items-center justify-items-center sm:grid-cols-3"
+    >
+      <a
+        href="https://www.arista.com/en/careers/university"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="sm:col-start-2"
+        ><img
+          src="/sponsor-logos/Arista.svg"
+          alt="Arista Logo"
+          class="h-4 sm:h-6"
+        /></a
+      >
+    </div>
   </section>
+
+  <!-- <section class="bg-white p-8"> -->
+  <!--   <h2 class="mb-8 text-center font-display text-3xl text-black">Blog</h2> -->
+  <!--   <ArticleList articles={articles} /> -->
+  <!-- </section> -->
 
   <!-- <section class="p-8"> -->
   <!--   <h2 class="mb-8 text-center font-display text-3xl">Services</h2> -->
@@ -54,6 +111,7 @@ const articles = await fetchApi<Article[]>({
   #hero {
     background-color: black;
     background-image: url("/cgol-header.png");
+    /* Background credit: https://spi3lot.itch.io/cgol */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left;

@@ -10,7 +10,7 @@ const article = Astro.props.article.attributes;
 const tagList = article.tags && article.tags.split(",");
 ---
 
-<div class="rounded-sm p-4 text-white hover:bg-gray-900">
+<div class="rounded-sm p-4 text-black hover:bg-gray-200">
   <time class="text-xs font-bold text-slate-500" datetime={article.publishedAt}
     >{new Date(article.publishedAt).toLocaleDateString()}</time
   >

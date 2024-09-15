@@ -30,7 +30,14 @@ const event = Astro.props.event.attributes;
         stroke-linejoin="round"
         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
     </svg>
-    <time datetime={event.date}>{new Date(event.date).toLocaleString()}</time>
+    <time datetime={event.date}
+      >{new Date(event.date).toDateString().slice(4)}, {
+        new Date(event.date).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      }</time
+    >
   </div>
   <div class="mb-4 flex items-center gap-4 text-sm font-semibold">
     <svg

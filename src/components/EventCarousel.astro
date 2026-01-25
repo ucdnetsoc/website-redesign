@@ -11,7 +11,7 @@ const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
 ---
 
 {events && events.length > 0 ? (
-  <div class="relative px-4 sm:px-8">
+  <div class="relative px-4 sm:px-8 z-10">
     
     <button
       class="carousel-btn-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black shadow-xl rounded-full p-3 sm:p-4 transition-all duration-300 hover:scale-110"
@@ -24,19 +24,17 @@ const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
       </svg>
     </button>
 
-    
     <div 
       id={carouselId}
-      class="carousel-container flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-8 px-12"
+      class="carousel-container flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-8 px-12 items-stretch"
     >
       {events.map((event) => (
-        <div class="snap-start flex-shrink-0">
+        <div class="snap-start flex-shrink-0 min-w-[280px] max-w-[400px] w-[85vw] sm:w-[45vw] md:w-[30vw] lg:w-[25vw] flex flex-col">
           <EventCard event={event} />
         </div>
       ))}
     </div>
 
-    
     <button
       class="carousel-btn-next absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black shadow-xl rounded-full p-3 sm:p-4 transition-all duration-300 hover:scale-110"
       data-carousel-id={carouselId}
@@ -57,6 +55,11 @@ const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
+
+    
+    .carousel-container {
+      display: flex;
+    }
   </style>
 
   <script is:inline define:vars={{ carouselId }}>
@@ -71,7 +74,12 @@ const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
 
         if (!prevBtn || !nextBtn) return;
 
-        const scrollAmount = 400;
+       
+        const getScrollAmount = () => {
+          const cardWidth = carousel.querySelector('.snap-start')?.offsetWidth || 320;
+          return cardWidth + 24; 
+        };
+
         let initialScrollLeft = null;
 
         const updateArrows = () => {
@@ -101,11 +109,11 @@ const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
         };
 
         prevBtn.onclick = () => {
-          carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+          carousel.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
         };
 
         nextBtn.onclick = () => {
-          carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+          carousel.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
         };
 
         carousel.addEventListener('scroll', updateArrows);

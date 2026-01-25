@@ -7,8 +7,124 @@ interface Props {
 }
 
 const { events } = Astro.props;
+const carouselId = `carousel-${Math.random().toString(36).substring(7)}`;
 ---
 
-<div class="flex flex-row gap-8 overflow-x-scroll">
-  {events.map((event) => <EventCard event={event} />)}
-</div>
+{events && events.length > 0 ? (
+  <div class="relative px-4 sm:px-8">
+    
+    <button
+      class="carousel-btn-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black shadow-xl rounded-full p-3 sm:p-4 transition-all duration-300 hover:scale-110"
+      data-carousel-id={carouselId}
+      aria-label="Previous events"
+      style="display: none;"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    
+    <div 
+      id={carouselId}
+      class="carousel-container flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-8 px-12"
+    >
+      {events.map((event) => (
+        <div class="snap-start flex-shrink-0">
+          <EventCard event={event} />
+        </div>
+      ))}
+    </div>
+
+    
+    <button
+      class="carousel-btn-next absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-black shadow-xl rounded-full p-3 sm:p-4 transition-all duration-300 hover:scale-110"
+      data-carousel-id={carouselId}
+      aria-label="Next events"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <style>
+    .carousel-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .carousel-container {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  </style>
+
+  <script is:inline define:vars={{ carouselId }}>
+    (function() {
+      const initCarousel = () => {
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return;
+
+        const wrapper = carousel.closest('.relative');
+        const prevBtn = wrapper.querySelector('.carousel-btn-prev');
+        const nextBtn = wrapper.querySelector('.carousel-btn-next');
+
+        if (!prevBtn || !nextBtn) return;
+
+        const scrollAmount = 400;
+        let initialScrollLeft = null;
+
+        const updateArrows = () => {
+          if (initialScrollLeft === null) {
+            initialScrollLeft = carousel.scrollLeft;
+          }
+
+          const scrollLeft = carousel.scrollLeft;
+          const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+          
+          if (scrollLeft > initialScrollLeft + 10) {
+            prevBtn.style.display = 'block';
+          } else {
+            prevBtn.style.display = 'none';
+          }
+          
+          if (scrollLeft < maxScroll - 10) {
+            nextBtn.style.display = 'block';
+          } else {
+            nextBtn.style.display = 'none';
+          }
+          
+          if (maxScroll <= 10) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+          }
+        };
+
+        prevBtn.onclick = () => {
+          carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        };
+
+        nextBtn.onclick = () => {
+          carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        };
+
+        carousel.addEventListener('scroll', updateArrows);
+        window.addEventListener('resize', updateArrows);
+        
+        setTimeout(updateArrows, 100);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCarousel);
+      } else {
+        initCarousel();
+      }
+
+      document.addEventListener('astro:page-load', initCarousel);
+    })();
+  </script>
+) : (
+  <div class="text-gray-500 italic">
+    No events available at this time.
+  </div>
+)}

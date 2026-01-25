@@ -1,21 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EventCarousel from "../components/EventCarousel.astro";
-// import ArticleList from "../components/ArticleList.astro";
 
 import fetchApi from "../lib/strapi";
 import type Event from "../interfaces/event.ts";
-// import type Article from "../interfaces/article";
 
 const events = await fetchApi<Event[]>({
   endpoint: "events?populate=*&sort=date",
   wrappedByKey: "data",
 });
-
-// const articles = await fetchApi<Article[]>({
-//   endpoint: "articles?sort=publishedAt:desc&pagination[limit]=8",
-//   wrappedByKey: "data",
-// });
 ---
 
 <Layout title="UCD NetSoc">
@@ -35,76 +28,98 @@ const events = await fetchApi<Event[]>({
     </div>
   </section>
 
-  <section class="p-8">
-    <h2 class="mb-8 text-center font-display text-3xl">Events</h2>
-    <EventCarousel events={events} />
-  </section>
-
-  <section class="bg-black p-8">
-    <h2
-      class="mb-4 text-center font-display text-base text-white sm:mb-8 sm:text-xl"
+<section class="bg-gradient-to-b from-black via-gray-900 to-gray-800 py-8">
+  <h2 class="mb-8 text-center font-display text-3xl text-white px-8">Events</h2>
+  <EventCarousel events={events} />
+  
+  <div class="mt-8 mb-12 text-center px-8">
+    <a 
+      href="/event/archive" 
+      class="inline-block rounded-lg bg-green-500 px-8 py-4 font-display text-lg font-semibold text-black shadow-lg transition-all hover:bg-green-400 hover:shadow-xl hover:scale-105"
     >
-      Proudly sponsored by:
-    </h2>
-    <div
-      class="mb-4 grid grid-cols-1 items-center justify-items-center gap-4 sm:mb-12 sm:grid-cols-3"
-    >
-      <a
-        href="https://kpmg.com/ie/en/home/careers.html"
-        rel="noreferrer noopener"
-        target="_blank"
-        ><img
-          src="/sponsor-logos/KPMG.svg"
-          alt="KPMG Logo"
-          class="h-6 sm:h-12"
-        /></a
-      >
-      <a
-        href="https://careers.sig.com/global-campus/"
-        rel="noopener noreferrer"
-        target="_blank"
-        ><img
-          src="/sponsor-logos/SIG.svg"
-          alt="SIG Logo"
-          class="h-6 sm:h-12"
-        /></a
-      >
-      <a
-        href="https://stripe.com/ie/jobs/university"
-        rel="noreferrer noopener"
-        target="_blank"
-        ><img
-          src="/sponsor-logos/Stripe.svg"
-          alt="Stripe Logo"
-          class="h-6 sm:h-12"
-        /></a
-      >
-    </div>
-    <div
-      class="grid grid-cols-1 items-center justify-items-center sm:grid-cols-3"
-    >
-      <a
-        href="https://www.arista.com/en/careers/university"
-        rel="noopener noreferrer"
-        target="_blank"
-        class="sm:col-start-2"
-        ><img
-          src="/sponsor-logos/Arista.svg"
-          alt="Arista Logo"
-          class="h-4 sm:h-6"
-        /></a
-      >
-    </div>
-  </section>
+      View All Events →
+    </a>
+  </div>
+</section>
 
-  <!-- <section class="bg-white p-8"> -->
-  <!--   <h2 class="mb-8 text-center font-display text-3xl text-black">Blog</h2> -->
-  <!--   <ArticleList articles={articles} /> -->
-  <!-- </section> -->
 
-  <!-- <section class="p-8"> -->
-  <!--   <h2 class="mb-8 text-center font-display text-3xl">Services</h2> -->
-  <!-- </section> -->
+<section class="bg-black py-16 px-8">
+  <h2 class="mb-12 text-center font-display text-2xl text-white sm:text-3xl">
+    Proudly Sponsored By
+  </h2>
+  
+  <!-- Top Tier Sponsors -->
+  <div class="mx-auto max-w-6xl mb-12 grid grid-cols-1 items-center justify-items-center gap-12 sm:grid-cols-3">
+    <a
+      href="https://kpmg.com/ie/en/home/careers.html"
+      rel="noreferrer noopener"
+      target="_blank"
+      class="group transition-all duration-300 hover:scale-110"
+    >
+      <img
+        src="/sponsor-logos/KPMG.svg"
+        alt="KPMG Logo"
+        class="h-10 sm:h-14 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      />
+    </a>
+    <a
+      href="https://careers.sig.com/global-campus/"
+      rel="noopener noreferrer"
+      target="_blank"
+      class="group transition-all duration-300 hover:scale-110"
+    >
+      <img
+        src="/sponsor-logos/SIG.svg"
+        alt="SIG Logo"
+        class="h-10 sm:h-14 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      />
+    </a>
+    <a
+      href="https://stripe.com/ie/jobs/university"
+      rel="noreferrer noopener"
+      target="_blank"
+      class="group transition-all duration-300 hover:scale-110"
+    >
+      <img
+        src="/sponsor-logos/Stripe.svg"
+        alt="Stripe Logo"
+        class="h-10 sm:h-14 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      />
+    </a>
+  </div>
+  
+  <!-- Divider -->
+  <div class="mx-auto max-w-4xl mb-12 h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+  
+  <!-- Secondary Sponsors -->
+  <div class="mx-auto max-w-4xl grid grid-cols-1 items-center justify-items-center gap-12 sm:grid-cols-2">
+    <a
+      href="https://www.arista.com/en/careers/university"
+      rel="noopener noreferrer"
+      target="_blank"
+      class="group transition-all duration-300 hover:scale-110"
+    >
+      <img
+        src="/sponsor-logos/Arista.svg"
+        alt="Arista Logo"
+        class="h-8 sm:h-12 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      />
+    </a>
+    <a
+      href="https://www.hubspot.com/careers/jobs?hubs_signup-url=www.hubspot.com%2Fcareers%2Fstudents%2Fintern-coop&hubs_signup-cta=careers-interncoop-bottom&page=1#roleType=intern"
+      rel="noopener noreferrer"
+      target="_blank"
+      class="group transition-all duration-300 hover:scale-110"
+    >
+      <img
+        src="/sponsor-logos/Hubspot.svg"
+        alt="Hubspot Logo"
+        class="h-10 sm:h-14 brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+      />
+    </a>
+  </div>
+</section>
+
 </Layout>
 
 <style>

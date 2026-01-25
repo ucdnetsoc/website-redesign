@@ -8,92 +8,55 @@ interface Props {
 const event = Astro.props.event.attributes;
 ---
 
-<div class="max-w-64 shrink-0 rounded-sm bg-black p-4 text-white">
-  <img
-    src={`${import.meta.env.STRAPI_URL}${event.thumbnail.data.attributes.url}`}
-    class="mb-4 aspect-square"
-  />
-  <p class="mb-2 overflow-x-hidden overflow-ellipsis text-nowrap font-bold">
-    {event.name}
-  </p>
-  <div class="mb-2 flex items-center gap-4 text-sm font-semibold">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="size-5 text-gray-400"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
-    </svg>
-    <time datetime={event.date}
-      >{new Date(event.date).toDateString().slice(4)}, {
-        new Date(event.date).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      }</time
-    >
+<a 
+  href={`/event/${event.slug}`}
+  class="group block max-w-64 shrink-0 bg-black border-2 border-white hover:border-green-500 transition-all duration-150 hover:translate-x-[-4px] hover:translate-y-[-4px] shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-[6px_6px_0px_0px_rgba(34,197,94,1)]"
+>
+  
+  <div class="relative overflow-hidden border-b-2 border-white">
+    <img
+      src={`${import.meta.env.STRAPI_URL}${event.thumbnail.data.attributes.url}`}
+      class="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105"
+      alt={event.name}
+    />
   </div>
-  <div class="mb-4 flex items-center gap-4 text-sm font-semibold">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="size-5 text-gray-400"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-      ></path>
-    </svg>
-    {event.location}
-  </div>
-  <!-- <time class="block text-xs font-semibold text-gray-400" datetime={event.date}> -->
-  <!--   {new Date(event.date).toLocaleString()} -->
-  <!-- </time> -->
-  <!-- <p class="mb-4 text-xs font-semibold text-gray-400">{event.location}</p> -->
-  <p class="fade">{event.description}</p>
-  <div>
-    <a
-      class="block w-fit bg-green-500 p-2 font-bold text-black transition-colors hover:bg-green-400"
-      href={`/event/${event.slug}`}>Read more</a
-    >
-  </div>
+
+  <div class="p-5 space-y-4">
+    
+    <h3 class="font-bold text-xl text-white group-hover:text-green-500 transition-colors leading-tight">
+      {event.name}
+    </h3>
+    
+    
+    <div class="space-y-2 text-sm text-gray-300">
+      <div class="flex items-baseline gap-2">
+        <span class="text-green-500 font-mono w-12 shrink-0">DATE</span>
+        <time datetime={event.date} class="font-mono">
+          {new Date(event.date).toDateString().slice(4)}, {
+            new Date(event.date).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          }
+        </time>
+      </div>
+      
+      <div class="flex items-baseline gap-2">
+        <span class="text-green-500 font-mono w-12 shrink-0">LOC</span>
+        <span class="font-mono">{event.location}</span>
+      </div>
+    </div>
+    
+    
+    <p class="text-gray-400 text-sm leading-snug line-clamp-3">
+      {event.description}
+    </p>
+
+    
+    
+<div class="pt-2 text-green-500 font-mono text-4xl group-hover:translate-x-2 transition-transform">
+  →
 </div>
 
-<style>
-  .fade {
-    position: relative;
-    line-height: 1.2em;
-    height: 3.6em;
-    overflow-y: clip;
-    margin-bottom: 1rem;
-  }
-
-  .fade::after {
-    content: "";
-    position: absolute;
-    text-align: right;
-    bottom: 0;
-    right: 0;
-    width: 80%;
-    height: 1.2em;
-    background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 100%)
-    );
-  }
-</style>
+  </div>
+</a>

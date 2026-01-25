@@ -1,6 +1,7 @@
 # Netsoc Website
 
-This is the repository for the Netsoc homepage and blog site.
+This is the repository for the Netsoc homepage and blog site, 
+It shows past and current events, aswell as sponsors.
 The site itself is built with Astro.js, Tailwind CSS, and Strapi.
 
 ## Getting started
